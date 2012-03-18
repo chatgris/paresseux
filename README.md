@@ -13,7 +13,7 @@ Install it with rubygems:
 With bundler, add it to your `Gemfile`:
 
 ``` ruby
-gem "paresseux", "~>0.0.1"
+gem "paresseux", "~>0.0.2"
 ```
 
 # Usage
