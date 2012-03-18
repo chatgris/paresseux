@@ -53,8 +53,9 @@ In this example, `ArticleParesseux` have access to article instance through the 
 
 # Status
 
+* It's more a POC than anything.
+* Not used in production... yet.
 * Only mongoid is supported.
-* Not use in production... yet.
 
 
 # Note on Patches/Pull Requests
