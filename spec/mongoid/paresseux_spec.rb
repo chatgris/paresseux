@@ -20,14 +20,19 @@ end
 describe Mongoid::Paresseux do
 
   context 'old version' do
-    let!(:article) { Article.new title: "New title", paresseux_version: 1}
+    let(:article) { Article.create title: "New title"}
+
+    before do
+      article.paresseux_version = 1
+      ArticleParesseux.new(article, 2).migrate!
+    end
 
     it 'should have update slug' do
-      article.reload.slug.should eq 'new-title'
+      article.slug.should eq 'new-title'
     end
 
     it 'should have update version' do
-      article.reload.paresseux_version.should eq 2
+      article.paresseux_version.should eq 2
     end
 
     it 'should not rerun migration' do
@@ -39,14 +44,14 @@ describe Mongoid::Paresseux do
   end
 
   context 'new version' do
-    let(:article) { Article.new title: "New version"}
+    let(:article) { Article.create title: "New version"}
 
     it 'should be at version 2' do
-      article.paresseux_version.should eq 2
+      article.reload.paresseux_version.should eq 2
     end
 
     it 'should not have run migration' do
-      article.slug.should be_nil
+      article.reload.slug.should be_nil
     end
   end
 end

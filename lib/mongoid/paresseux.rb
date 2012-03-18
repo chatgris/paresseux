@@ -6,7 +6,7 @@ module Mongoid
     extend ::ActiveSupport::Concern
 
     included do
-      field :paresseux_version, type: Integer, default: self::VERSION
+      field :paresseux_version, type: Integer
       after_initialize :paresseux_migrate
       before_save      :set_paresseux_version
     end
@@ -14,8 +14,11 @@ module Mongoid
     private
 
     def paresseux_migrate
-      if paresseux_version < current_paresseux_version
-        "#{self.class}Paresseux".constantize.new(self, current_paresseux_version).migrate!
+      unless new_record?
+        self.paresseux_version ||= 1
+        if paresseux_version < current_paresseux_version
+          "#{self.class}Paresseux".constantize.new(self, current_paresseux_version).migrate!
+        end
       end
     end
 
